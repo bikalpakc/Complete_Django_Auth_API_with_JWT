@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from .serilaizers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, SendPasswordResetEmailSerializer, UserPasswordResetSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, SendPasswordResetEmailSerializer, UserPasswordResetSerializer
 from django.contrib.auth import authenticate
 from .renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -23,8 +23,8 @@ class UserRegistrationView(APIView):
         if serializer.is_valid(raise_exception=True):
             user=serializer.save()
             token=get_tokens_for_user(user)
-            return Response({'token':token,'msg': 'Registration Successful'})
-            status=status.HTTP_201_CREATED
+            return Response({'token':token,'msg': 'Registration Successful',}, status=status.HTTP_201_CREATED)
+            # status=status.HTTP_201_CREATED
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class UserLoginView(APIView):
